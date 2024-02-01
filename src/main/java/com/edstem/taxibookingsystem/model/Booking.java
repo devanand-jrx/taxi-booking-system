@@ -26,9 +26,10 @@ public class Booking {
     private Long bookingId;
     private String pickupLocation;
     private String dropOffLocation;
-    private Long fare;
+    private Double fare;
     private Timestamp bookingTime;
     private Status status;
+    private Double distance;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "taxiId")
