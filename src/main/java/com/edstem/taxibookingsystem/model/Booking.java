@@ -35,8 +35,8 @@ public class Booking {
     private Taxi taxi;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookingId")
-    private Booking booking;
+    @JoinColumn(name = "userId")
+    private User user;
 
 
 }
