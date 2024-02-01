@@ -4,7 +4,7 @@ Server:
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/taxi
+    url: jdbc:postgresql://localhost:5432/booking
 
     username: postgres
     password:
