@@ -2,6 +2,8 @@ package com.edstem.taxibookingsystem.service;
 
 import com.edstem.taxibookingsystem.constant.Status;
 import com.edstem.taxibookingsystem.contract.request.BookingRequest;
+import com.edstem.taxibookingsystem.contract.request.DistanceRequest;
+import com.edstem.taxibookingsystem.contract.response.BillingResponse;
 import com.edstem.taxibookingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingsystem.model.Booking;
 import com.edstem.taxibookingsystem.repository.BookingRepository;
@@ -24,6 +26,9 @@ public class BookingServiceTest {
 
     @InjectMocks
     BookingService bookingService;
+
+    @InjectMocks
+    BillingService billingService;
 
     @Mock
     BookingRepository bookingRepository;
@@ -65,6 +70,7 @@ public class BookingServiceTest {
         when(bookingRepository.existsById(bookingId)).thenReturn(true);
         bookingService.cancelBooking(bookingId);
     }
+
 
 
 

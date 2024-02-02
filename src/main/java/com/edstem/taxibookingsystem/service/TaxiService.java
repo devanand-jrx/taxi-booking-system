@@ -17,6 +17,7 @@ public class TaxiService {
     public TaxiResponse addTaxi(TaxiRequest taxiRequest){
 
         Taxi taxi = Taxi.builder()
+                .taxiName(taxiRequest.getTaxiName())
                 .driverName(taxiRequest.getDriverName())
                 .licenseNumber(taxiRequest.getLicenseNumber())
                 .currentLocation(taxiRequest.getCurrentLocation())
