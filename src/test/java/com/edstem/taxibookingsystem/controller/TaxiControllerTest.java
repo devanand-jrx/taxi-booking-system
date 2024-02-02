@@ -1,11 +1,7 @@
 package com.edstem.taxibookingsystem.controller;
 
-import com.edstem.taxibookingsystem.constant.Status;
-import com.edstem.taxibookingsystem.contract.request.BookingRequest;
 import com.edstem.taxibookingsystem.contract.request.TaxiRequest;
-import com.edstem.taxibookingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingsystem.contract.response.TaxiResponse;
-import com.edstem.taxibookingsystem.service.BookingService;
 import com.edstem.taxibookingsystem.service.TaxiService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -16,7 +12,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
