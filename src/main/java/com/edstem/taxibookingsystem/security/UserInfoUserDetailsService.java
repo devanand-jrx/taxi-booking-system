@@ -1,6 +1,5 @@
 package com.edstem.taxibookingsystem.security;
 
-
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

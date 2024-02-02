@@ -1,6 +1,6 @@
 package com.edstem.taxibookingsystem.security;
-import com.edstem.taxibookingsystem.model.User;
 
+import com.edstem.taxibookingsystem.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,5 +51,4 @@ public class UserInfoUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

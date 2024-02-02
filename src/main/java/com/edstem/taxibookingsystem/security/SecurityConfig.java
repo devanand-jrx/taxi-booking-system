@@ -39,12 +39,12 @@ public class SecurityConfig {
                                         .permitAll()
                                         .requestMatchers("/**")
                                         .permitAll()
-//                                        .requestMatchers(
-//                                                "/swagger-ui.html",
-//                                                "/swagger-ui/**",
-//                                                "/v3/api-docs/**",
-//                                                "/swagger-resources/**")
-//                                        .permitAll()
+                                        .requestMatchers(
+                                                "/swagger-ui.html",
+                                                "/swagger-ui/**",
+                                                "/v3/api-docs/**",
+                                                "/swagger-resources/**")
+                                        .permitAll()
                                         .requestMatchers("/error/**")
                                         .permitAll()
                                         .anyRequest()

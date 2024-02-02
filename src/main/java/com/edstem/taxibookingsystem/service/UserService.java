@@ -1,9 +1,11 @@
 package com.edstem.taxibookingsystem.service;
 import com.edstem.taxibookingsystem.contract.request.LoginRequest;
 import com.edstem.taxibookingsystem.contract.request.SignupRequest;
+import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
 import com.edstem.taxibookingsystem.contract.response.AuthResponse;
 import com.edstem.taxibookingsystem.contract.response.UserResponse;
 import com.edstem.taxibookingsystem.exception.InvalidLoginException;
+import com.edstem.taxibookingsystem.exception.UserNotFoundException;
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.UserRepository;
 import com.edstem.taxibookingsystem.security.JwtService;
@@ -18,11 +20,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
     private final ModelMapper modelMapper;
+
     private final PasswordEncoder passwordEncoder;
+
     private final JwtService jwtService;
 
-    public UserResponse signup(SignupRequest request) {
+    public UserResponse signUp(SignupRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new EntityExistsException("Invalid Signup");
         }
@@ -35,6 +40,7 @@ public class UserService {
         user = userRepository.save(user);
         return modelMapper.map(user, UserResponse.class);
     }
+
     public AuthResponse login(LoginRequest request) throws Exception {
         String email = request.getEmail();
         String password = request.getPassword();
@@ -48,4 +54,19 @@ public class UserService {
         throw new InvalidLoginException();
     }
 
+
+    public AccountDetailsResponse addBalance(Long userId, Double accountBalance){
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        user = User.builder()
+                .userId(user.getUserId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .accountBalance(accountBalance)
+                .build();
+        user = userRepository.save(user);
+        return modelMapper.map(user, AccountDetailsResponse.class);
+
+    }
 }

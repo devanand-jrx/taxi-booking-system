@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -27,9 +28,8 @@ public class Booking {
     private String pickupLocation;
     private String dropOffLocation;
     private Double fare;
-    private Timestamp bookingTime;
+    private LocalTime bookingTime;
     private Status status;
-    private Double distance;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "taxiId")

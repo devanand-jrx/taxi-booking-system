@@ -2,7 +2,6 @@ package com.edstem.taxibookingsystem.security;
 
 import com.edstem.taxibookingsystem.contract.response.AuthResponse;
 import com.edstem.taxibookingsystem.model.User;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
