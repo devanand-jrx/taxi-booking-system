@@ -37,12 +37,14 @@ public class UserServiceTest {
 
     @Test
     void testSignUp(){
+
         SignupRequest signupRequest = new SignupRequest("vignesh","vig@Gmail.com","vig@123");
         User user = User.builder()
                 .name(signupRequest.getName())
                 .email(signupRequest.getEmail())
                 .password(passwordEncoder.encode(signupRequest.getPassword()))
                 .build();
+
         UserResponse expectedResponse = UserResponse.builder()
                 .email(user.getEmail())
                 .name(user.getName())
@@ -55,11 +57,7 @@ public class UserServiceTest {
         UserResponse actualResponse = userService.signUp(signupRequest);
 
         assertEquals(expectedResponse, actualResponse);
-
-
-
-
-
-
     }
+
+
 }
