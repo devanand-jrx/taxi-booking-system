@@ -7,6 +7,7 @@ import com.edstem.taxibookingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingsystem.service.BookingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.stubbing.answers.DoesNothing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalTime;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -70,6 +73,17 @@ public class BookingControllerTest {
                .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
     }
 
+    @Test
+    void testCancelBooking() throws Exception {
+        Long bookingId = 1L;
 
+        doNothing().when(bookingService).cancelBooking(bookingId);
+
+        mockMvc.perform(delete("/bookings/" + bookingId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
 
 }
