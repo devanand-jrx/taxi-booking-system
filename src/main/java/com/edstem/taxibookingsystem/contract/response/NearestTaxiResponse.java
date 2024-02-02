@@ -1,4 +1,4 @@
-package com.edstem.taxibookingsystem.contract.request;
+package com.edstem.taxibookingsystem.contract.response;
 
 
 import lombok.AllArgsConstructor;
@@ -10,11 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaxiRequest {
+public class NearestTaxiResponse {
 
     private String taxiName;
-
-    private String driverName;
-    private Long licenseNumber;
     private String currentLocation;
+
 }

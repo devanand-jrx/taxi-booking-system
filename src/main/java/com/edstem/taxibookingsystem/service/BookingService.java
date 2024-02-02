@@ -3,9 +3,13 @@ package com.edstem.taxibookingsystem.service;
 import com.edstem.taxibookingsystem.constant.Status;
 import com.edstem.taxibookingsystem.contract.request.BookingRequest;
 import com.edstem.taxibookingsystem.contract.response.BookingResponse;
+import com.edstem.taxibookingsystem.contract.response.NearestTaxiResponse;
 import com.edstem.taxibookingsystem.exception.BookingNotFoundException;
+import com.edstem.taxibookingsystem.exception.TaxiNotFoundException;
 import com.edstem.taxibookingsystem.model.Booking;
+import com.edstem.taxibookingsystem.model.Taxi;
 import com.edstem.taxibookingsystem.repository.BookingRepository;
+import com.edstem.taxibookingsystem.repository.TaxiRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,7 @@ import java.time.LocalTime;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
+    private final TaxiRepository taxiRepository;
     private final ModelMapper modelMapper;
 
     public BookingResponse addBooking(BookingRequest bookingRequest){
@@ -44,6 +49,28 @@ public class BookingService {
         }
         bookingRepository.deleteById(bookingId);
     }
+
+    public NearestTaxiResponse nearestTaxi(Long  bookingId, Long taxiId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(()->new BookingNotFoundException("Booking Not Found"));
+        booking = Booking.builder()
+                .pickupLocation(booking.getPickupLocation())
+                .build();
+
+        Taxi taxi = taxiRepository.findById(taxiId)
+                .orElseThrow(()->new TaxiNotFoundException("Taxi Not Found"));
+        taxi = Taxi.builder()
+                .currentLocation(taxi.getCurrentLocation())
+                .build();
+
+        return modelMapper.map(booking, NearestTaxiResponse.class);
+
+
+
+
+    }
+
+
 
 
 }

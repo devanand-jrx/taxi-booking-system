@@ -1,7 +1,9 @@
 package com.edstem.taxibookingsystem.controller;
 
 import com.edstem.taxibookingsystem.contract.request.BookingRequest;
+import com.edstem.taxibookingsystem.contract.request.NearestTaxiRequest;
 import com.edstem.taxibookingsystem.contract.response.BookingResponse;
+import com.edstem.taxibookingsystem.contract.response.NearestTaxiResponse;
 import com.edstem.taxibookingsystem.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,11 @@ public class BookingController {
     @DeleteMapping("/{bookingId}")
     public void cancelBooking(@PathVariable Long bookingId){
         bookingService.cancelBooking(bookingId);
+    }
+
+    @GetMapping("/{bookingId}/{taxiId}")
+    public @ResponseBody NearestTaxiResponse nearestTaxi(@PathVariable Long bookingId, @PathVariable Long taxiId){
+        return bookingService.nearestTaxi(bookingId, taxiId);
     }
 
 }

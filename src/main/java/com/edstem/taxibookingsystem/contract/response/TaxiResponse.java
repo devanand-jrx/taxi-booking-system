@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TaxiResponse {
 
+    private Long taxiId;
+    private String taxiName;
     private String driverName;
     private Long licenseNumber;
     private String currentLocation;

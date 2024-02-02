@@ -1,6 +1,5 @@
 package com.edstem.taxibookingsystem.contract.request;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,11 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaxiRequest {
+public class DistanceRequest {
 
-    private String taxiName;
+    private Double distance;
 
-    private String driverName;
-    private Long licenseNumber;
-    private String currentLocation;
+
 }

@@ -9,6 +9,7 @@ import com.edstem.taxibookingsystem.contract.response.UserResponse;
 import com.edstem.taxibookingsystem.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,4 +39,10 @@ public class UserController {
     public @ResponseBody AccountDetailsResponse addBalance(@PathVariable Long userId, @RequestParam Double accountBalance) {
         return userService.addBalance(userId, accountBalance);
     }
+
+    @GetMapping("/{userId}/details")
+    public @ResponseBody AccountDetailsResponse getAccountDetails(@PathVariable Long userId){
+        return userService.getAccountDetails(userId);
+    }
+
 }

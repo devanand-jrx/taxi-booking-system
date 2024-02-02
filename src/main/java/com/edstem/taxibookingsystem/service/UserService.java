@@ -69,4 +69,9 @@ public class UserService {
         return modelMapper.map(user, AccountDetailsResponse.class);
 
     }
+    public AccountDetailsResponse getAccountDetails(Long userId){
+        User user = userRepository.findById(userId)
+             .orElseThrow(() -> new UserNotFoundException("User not found"));
+        return modelMapper.map(user, AccountDetailsResponse.class);
+    }
 }
