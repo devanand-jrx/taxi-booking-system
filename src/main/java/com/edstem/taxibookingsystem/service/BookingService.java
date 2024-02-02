@@ -65,9 +65,6 @@ public class BookingService {
 
         return modelMapper.map(booking, NearestTaxiResponse.class);
 
-
-
-
     }
 
 

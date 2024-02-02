@@ -7,7 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TaxiBookingSystemApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void contextLoads() {}
+
+	@Test
+	public void main() {
+		TaxiBookingSystemApplication.main(new String[] {});
 	}
 
 }
