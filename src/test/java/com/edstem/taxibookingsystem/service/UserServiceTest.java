@@ -6,12 +6,11 @@ import static org.mockito.Mockito.when;
 
 import com.edstem.taxibookingsystem.contract.request.SignupRequest;
 import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
-import com.edstem.taxibookingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingsystem.contract.response.UserResponse;
-import com.edstem.taxibookingsystem.model.Booking;
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.UserRepository;
 import com.edstem.taxibookingsystem.security.JwtService;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,8 +18,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Optional;
 
 public class UserServiceTest {
 
@@ -60,26 +57,26 @@ public class UserServiceTest {
 
         assertEquals(expectedResponse, actualResponse);
     }
+
     @Test
-    void testAddBalance(){
+    void testAddBalance() {
         Long userId = 1L;
         Double accountBalance = 100.00;
         User existingUser = new User();
-        existingUser = User.builder()
-                .userId(existingUser.getUserId())
-                .name(existingUser.getName())
-                .email(existingUser.getEmail())
-                .accountBalance(accountBalance)
-                .build();
-        AccountDetailsResponse expectedResponse = modelMapper.map(existingUser, AccountDetailsResponse.class);
+        existingUser =
+                User.builder()
+                        .userId(existingUser.getUserId())
+                        .name(existingUser.getName())
+                        .email(existingUser.getEmail())
+                        .accountBalance(accountBalance)
+                        .build();
+        AccountDetailsResponse expectedResponse =
+                modelMapper.map(existingUser, AccountDetailsResponse.class);
         when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(existingUser));
         when(userRepository.save(any(User.class))).thenReturn(existingUser);
 
-        AccountDetailsResponse actualResponse = userService.addBalance(1L, accountBalance);
+        AccountDetailsResponse actualResponse = userService.addBalance(userId, accountBalance);
 
         assertEquals(expectedResponse, actualResponse);
-
     }
-
-
 }

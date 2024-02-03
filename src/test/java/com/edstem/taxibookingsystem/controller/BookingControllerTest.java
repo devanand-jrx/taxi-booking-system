@@ -1,14 +1,18 @@
 package com.edstem.taxibookingsystem.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.RequestEntity.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.edstem.taxibookingsystem.constant.Status;
+import com.edstem.taxibookingsystem.contract.request.BookingRequest;
 import com.edstem.taxibookingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingsystem.service.BookingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,35 +34,32 @@ public class BookingControllerTest {
 
     @Autowired ObjectMapper mapper = new ObjectMapper();
 
-    //    @Test
-    //    void testAddBooking() throws Exception {
-    //        BookingResponse expectedResponse = BookingResponse.builder()
-    //                .taxiId("1L")
-    //                .bookingId("2L")
-    //                .pickupLocation("ernakulam")
-    //                .dropOffLocation("kakkanad")
-    //                .bookingTime(LocalTime.now().toString())
-    //                .status(Status.BOOKED)
-    //                .build();
-    //
-    // when(bookingService.addBooking(any(Long.class))),any(BookingRequest.class).thenReturn(expectedResponse);
+    @Test
+    void testAddBooking() throws Exception {
+        Long taxiId = 1L;
 
-    //        BookingRequest bookingRequest = new BookingRequest("ernakulam test", "kakanad");
+        BookingRequest bookingRequest = new BookingRequest("ernakulam test", "kakanad");
 
-    //        BookingResponse expectedResponse = new BookingResponse("1L", "2L", "ernakulam test",
-    // "kakanad", LocalTime.now().toString(), Status.BOOKED);
-    //
-    //
-    //        mockMvc.perform(
-    //                        post("/bookings")
-    //                            .contentType(MediaType.APPLICATION_JSON)
-    //                            .content(new ObjectMapper().writeValueAsString(bookingRequest)))
-    //                .andDo(print())
-    //                .andExpect(status().isOk())
-    //                .andExpect(content().json(new
-    // ObjectMapper().writeValueAsString(expectedResponse)));
-    //
-    //    }
+        BookingResponse expectedResponse =
+                BookingResponse.builder()
+                        .taxiId("1L")
+                        .bookingId("2L")
+                        .pickupLocation("ernakulam")
+                        .dropOffLocation("kakkanad")
+                        .bookingTime(LocalTime.now().toString())
+                        .status(Status.BOOKED)
+                        .build();
+
+        when(bookingService.addBooking(any(Long.class), any(BookingRequest.class)))
+                .thenReturn(expectedResponse);
+
+        mockMvc.perform(
+                        post("/bookings/" + taxiId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(new ObjectMapper().writeValueAsString(bookingRequest)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
+    }
 
     @Test
     void testViewBooking() throws Exception {

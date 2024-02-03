@@ -35,9 +35,7 @@ public class BillingServiceTest {
         DistanceRequest distanceRequest = new DistanceRequest(14D);
         double minimumCharge = 22.00;
         Booking billing =
-                Booking.builder()
-                        .fare(distanceRequest.getDistance() * minimumCharge)
-                        .build();
+                Booking.builder().fare(distanceRequest.getDistance() * minimumCharge).build();
 
         BillingResponse expectedBookingResponse = modelMapper.map(billing, BillingResponse.class);
         when(bookingRepository.save(any(Booking.class))).thenReturn(billing);
