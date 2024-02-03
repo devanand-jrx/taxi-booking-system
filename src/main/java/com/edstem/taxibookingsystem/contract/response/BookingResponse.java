@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingResponse {
-    private Long taxiId;
+    private String taxiId;
     private String bookingId;
     private String pickupLocation;
     private String dropOffLocation;

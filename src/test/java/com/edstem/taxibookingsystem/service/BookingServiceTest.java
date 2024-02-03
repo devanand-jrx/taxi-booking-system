@@ -29,9 +29,6 @@ public class BookingServiceTest {
     @InjectMocks
     BookingService bookingService;
 
-    @InjectMocks
-    BillingService billingService;
-
     @Mock
     BookingRepository bookingRepository;
     @Mock
@@ -47,9 +44,8 @@ public class BookingServiceTest {
 
     @Test
     void testAddBooking() {
-        // Arrange
         Long taxiId = 1L;
-        BookingRequest bookingRequest = new BookingRequest("pickup test", "dropoff test");
+        BookingRequest bookingRequest = new BookingRequest("pickup test", "dropofftest");
         Taxi nearestTaxi = Taxi.builder().build();
         Booking booking = Booking.builder()
                 .pickupLocation(bookingRequest.getPickupLocation())
@@ -62,10 +58,8 @@ public class BookingServiceTest {
         when(taxiRepository.findById(any(Long.class))).thenReturn(Optional.of(nearestTaxi));
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
 
-        // Act
         BookingResponse actualResponse = bookingService.addBooking(taxiId, bookingRequest);
 
-        // Assert
         assertEquals(expectedResponse, actualResponse);
     }
 
@@ -96,7 +90,7 @@ public class BookingServiceTest {
     @Test
     void testCancelBooking(){
         Long bookingId = 1L;
-        Booking booking = new Booking(bookingId, "ernakulam test", "kakanad", 55.00, LocalTime.now(), Status.BOOKED, null,null);
+        Booking booking = new Booking(1L, "ernakulam test", "kakanad", 55.00, LocalTime.now(), Status.BOOKED,null, null,null);
         when(bookingRepository.existsById(bookingId)).thenReturn(true);
         bookingService.cancelBooking(bookingId);
     }

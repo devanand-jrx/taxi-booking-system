@@ -30,6 +30,8 @@ public class Booking {
     private Double fare;
     private LocalTime bookingTime;
     private Status status;
+    private Double distance;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "taxiId")
