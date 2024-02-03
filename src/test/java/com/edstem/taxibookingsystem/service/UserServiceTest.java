@@ -5,7 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.edstem.taxibookingsystem.contract.request.SignupRequest;
+import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
+import com.edstem.taxibookingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingsystem.contract.response.UserResponse;
+import com.edstem.taxibookingsystem.model.Booking;
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.UserRepository;
 import com.edstem.taxibookingsystem.security.JwtService;
@@ -16,6 +19,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
 
 public class UserServiceTest {
 
@@ -55,45 +60,26 @@ public class UserServiceTest {
 
         assertEquals(expectedResponse, actualResponse);
     }
+    @Test
+    void testAddBalance(){
+        Long userId = 1L;
+        Double accountBalance = 100.00;
+        User existingUser = new User();
+        existingUser = User.builder()
+                .userId(existingUser.getUserId())
+                .name(existingUser.getName())
+                .email(existingUser.getEmail())
+                .accountBalance(accountBalance)
+                .build();
+        AccountDetailsResponse expectedResponse = modelMapper.map(existingUser, AccountDetailsResponse.class);
+        when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(existingUser));
+        when(userRepository.save(any(User.class))).thenReturn(existingUser);
 
-    //    @Test
-    //    void testLogin() {
-    //        User user = new User(1L, "vig", "vig@gmail.com", "vig", 0.0);
-    //        LoginRequest request = new LoginRequest("sharok@gmail.com", "Helloworld");
-    //        UserResponse expectedResponse = new ModelMapper().map(request, UserResponse.class);
-    //
-    //
-    //        when(userRepository.findByEmail(request.getEmail())).thenReturn(user);
-    //        when(!passwordEncoder.matches(request.getPassword(),
-    // user.getPassword())).thenReturn(true);
-    //
-    //        UserResponse actualResponse = userService.login(request);
-    //
-    //        assertEquals(expectedResponse, actualResponse);
-    //    }
+        AccountDetailsResponse actualResponse = userService.addBalance(1L, accountBalance);
 
-    //    @Test
-    //    void testLogin() throws Exception {
-    //
-    //        LoginRequest loginRequest = new LoginRequest("vig@Gmail.com", "vig@123");
-    //        User user = User.builder()
-    //                .email(loginRequest.getEmail())
-    //                .password(passwordEncoder.encode(loginRequest.getPassword()))
-    //                .build();
-    //
-    //        String mockToken = "mockToken";
-    //
-    //
-    //        AuthResponse expectedResponse = new AuthResponse(mockToken);
-    //
-    //        when(userRepository.existsByEmail(loginRequest.getEmail())).thenReturn(true);
-    //        when(userRepository.findByEmail(loginRequest.getEmail())).thenReturn(user);
-    //        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
-    //        when(jwtService.generateToken(any(User.class))).thenReturn(expectedResponse);
-    //
-    //        AuthResponse actualResponse = userService.login(loginRequest);
-    //
-    //        assertEquals(expectedResponse, actualResponse);
-    //    }
+        assertEquals(expectedResponse, actualResponse);
+
+    }
+
 
 }

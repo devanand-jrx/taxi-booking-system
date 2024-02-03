@@ -68,7 +68,9 @@ public class BookingServiceTest {
     @Test
     void testUpdateBooking() {
         Booking booking = new Booking();
-        Booking.builder().status(Status.CANCEL).build();
+        Booking.builder()
+                .status(Status.CANCEL)
+                .build();
         BookingResponse expectedResponse = modelMapper.map(booking, BookingResponse.class);
         when(bookingRepository.findById(any(Long.class))).thenReturn(Optional.of(booking));
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
