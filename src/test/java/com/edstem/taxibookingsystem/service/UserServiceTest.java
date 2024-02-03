@@ -1,10 +1,13 @@
 package com.edstem.taxibookingsystem.service;
 
+import com.edstem.taxibookingsystem.contract.request.LoginRequest;
 import com.edstem.taxibookingsystem.contract.request.SignupRequest;
+import com.edstem.taxibookingsystem.contract.response.AuthResponse;
 import com.edstem.taxibookingsystem.contract.response.UserResponse;
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.TaxiRepository;
 import com.edstem.taxibookingsystem.repository.UserRepository;
+import com.edstem.taxibookingsystem.security.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,12 +18,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class UserServiceTest {
 
     @InjectMocks
     UserService userService;
+
+    @InjectMocks
+    JwtService jwtService;
 
     @Mock
     UserRepository userRepository;
@@ -58,6 +65,46 @@ public class UserServiceTest {
 
         assertEquals(expectedResponse, actualResponse);
     }
+
+//    @Test
+//    void testLogin() {
+//        User user = new User(1L, "vig", "vig@gmail.com", "vig", 0.0);
+//        LoginRequest request = new LoginRequest("sharok@gmail.com", "Helloworld");
+//        UserResponse expectedResponse = new ModelMapper().map(request, UserResponse.class);
+//
+//
+//        when(userRepository.findByEmail(request.getEmail())).thenReturn(user);
+//        when(!passwordEncoder.matches(request.getPassword(), user.getPassword())).thenReturn(true);
+//
+//        UserResponse actualResponse = userService.login(request);
+//
+//        assertEquals(expectedResponse, actualResponse);
+//    }
+
+//    @Test
+//    void testLogin() throws Exception {
+//
+//        LoginRequest loginRequest = new LoginRequest("vig@Gmail.com", "vig@123");
+//        User user = User.builder()
+//                .email(loginRequest.getEmail())
+//                .password(passwordEncoder.encode(loginRequest.getPassword()))
+//                .build();
+//
+//        String mockToken = "mockToken";
+//
+//
+//        AuthResponse expectedResponse = new AuthResponse(mockToken);
+//
+//        when(userRepository.existsByEmail(loginRequest.getEmail())).thenReturn(true);
+//        when(userRepository.findByEmail(loginRequest.getEmail())).thenReturn(user);
+//        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
+//        when(jwtService.generateToken(any(User.class))).thenReturn(expectedResponse);
+//
+//        AuthResponse actualResponse = userService.login(loginRequest);
+//
+//        assertEquals(expectedResponse, actualResponse);
+//    }
+
 
 
 }

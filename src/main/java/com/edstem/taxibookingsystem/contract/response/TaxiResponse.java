@@ -1,6 +1,7 @@
 package com.edstem.taxibookingsystem.contract.response;
 
 
+import com.edstem.taxibookingsystem.model.Taxi;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

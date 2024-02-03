@@ -24,12 +24,18 @@ public class BookingService {
     private final TaxiRepository taxiRepository;
     private final ModelMapper modelMapper;
 
-    public BookingResponse addBooking(BookingRequest bookingRequest){
-        Booking booking  =Booking.builder()
+    public BookingResponse addBooking(Long taxiId, BookingRequest bookingRequest){
+
+        Taxi nearestTaxi = taxiRepository.findById(taxiId)
+                .orElseThrow(() -> new TaxiNotFoundException("Taxi not found"));
+
+        Booking booking  =
+                Booking.builder()
                 .pickupLocation(bookingRequest.getPickupLocation())
                 .dropOffLocation(bookingRequest.getDropOffLocation())
                 .bookingTime(LocalTime.parse(LocalTime.now().toString()))
                 .status(Status.BOOKED)
+                .taxi(nearestTaxi)
                 .build();
         booking = bookingRepository.save(booking);
         return modelMapper.map(booking, BookingResponse.class);
@@ -40,6 +46,21 @@ public class BookingService {
         Booking booking = bookingRepository
                 .findById(bookingId)
                 .orElseThrow(() -> new BookingNotFoundException("Booking Not Found"));
+        return modelMapper.map(booking, BookingResponse.class);
+    }
+
+
+    public BookingResponse updateBooking(Long bookingId){
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new BookingNotFoundException("Booking Not Found"));
+        booking = Booking.builder()
+                .bookingId(booking.getBookingId())
+                .dropOffLocation(booking.getDropOffLocation())
+                .pickupLocation(booking.getPickupLocation())
+                .bookingTime(booking.getBookingTime())
+                .status(Status.CANCEL)
+                .build();
+        booking = bookingRepository.save(booking);
         return modelMapper.map(booking, BookingResponse.class);
     }
 

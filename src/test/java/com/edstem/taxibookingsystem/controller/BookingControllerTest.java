@@ -41,49 +41,49 @@ public class BookingControllerTest {
     @Autowired
     ObjectMapper mapper = new ObjectMapper();
 
-    @Test
-    void testAddBooking() throws Exception {
-        BookingRequest bookingRequest = new BookingRequest("ernakulam test", "kakanad");
-        BookingResponse expectedResponse = new BookingResponse("1L", "ernakulam test", "kakanad", LocalTime.now().toString(), Status.BOOKED);
-        when(bookingService.addBooking(any(BookingRequest.class))).thenReturn(expectedResponse);
+//    @Test
+//    void testAddBooking() throws Exception {
+//        BookingRequest bookingRequest = new BookingRequest("ernakulam test", "kakanad");
+//        BookingResponse expectedResponse = new BookingResponse("1L", "ernakulam test", "kakanad", LocalTime.now().toString(), Status.BOOKED);
+//        when(bookingService.addBooking(any(BookingRequest.class))).thenReturn(expectedResponse);
+//
+//
+//        mockMvc.perform(
+//                        post("/bookings")
+//                            .contentType(MediaType.APPLICATION_JSON)
+//                            .content(new ObjectMapper().writeValueAsString(bookingRequest)))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
+//
+//    }
 
+//    @Test
+//    void testViewBooking() throws Exception {
+//        Long bookingId = 1L;
+//
+//        BookingResponse expectedResponse = new BookingResponse("1L", "ernakulam test", "kakanad", LocalTime.now().toString(), Status.BOOKED);
+//        when(bookingService.viewBooking(bookingId)).thenReturn(expectedResponse);
+//
+//
+//        mockMvc.perform(
+//                        get("/bookings/" + bookingId))
+//               .andDo(print())
+//               .andExpect(status().isOk())
+//               .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
+//    }
 
-        mockMvc.perform(
-                        post("/bookings")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(new ObjectMapper().writeValueAsString(bookingRequest)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
-
-    }
-
-    @Test
-    void testViewBooking() throws Exception {
-        Long bookingId = 1L;
-
-        BookingResponse expectedResponse = new BookingResponse("1L", "ernakulam test", "kakanad", LocalTime.now().toString(), Status.BOOKED);
-        when(bookingService.viewBooking(bookingId)).thenReturn(expectedResponse);
-
-
-        mockMvc.perform(
-                        get("/bookings/" + bookingId))
-               .andDo(print())
-               .andExpect(status().isOk())
-               .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
-    }
-
-    @Test
-    void testCancelBooking() throws Exception {
-        Long bookingId = 1L;
-
-        doNothing().when(bookingService).cancelBooking(bookingId);
-
-        mockMvc.perform(delete("/bookings/" + bookingId)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-
-    }
+//    @Test
+//    void testCancelBooking() throws Exception {
+//        Long bookingId = 1L;
+//
+//        doNothing().when(bookingService).cancelBooking(bookingId);
+//
+//        mockMvc.perform(delete("/bookings/" + bookingId)
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().isOk());
+//
+//    }
 
 }

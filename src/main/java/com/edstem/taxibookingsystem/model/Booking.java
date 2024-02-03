@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.awt.image.PixelGrabber;
 import java.time.LocalTime;
 
 @Entity
