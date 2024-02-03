@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "495a58d7-3f64-4af1-a4f3-b4f89b056bc5",
+		"name": "taxi-booking-billing-system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28643575"
+	},
+	"item": [
+		{
+			"name": "add boooking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pickupLocation\" : \"ernakulam south\",\r\n    \"dropOffLocation\" : \"kakkanad east\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/bookings"
+			},
+			"response": []
+		},
+		{
+			"name": "view booking",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "cancel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZhQGdtYWlsLmNvbSIsImlhdCI6MTcwNjg5MjI4MCwiZXhwIjoxNzA2OTI4MjgwfQ.qWz1FK_Z7FJ2r4oXgKyZImrU4Lr9XRQab4khu_0bae0"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"url": "http://localhost:8082/bookings/52"
+			},
+			"response": []
+		},
+		{
+			"name": "delete booking",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8082/bookings/2"
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"appu\",\r\n    \"email\" : \"appu@gmail.com\",\r\n    \"password\" : \"appu@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/user/signup"
+			},
+			"response": []
+		},
+		{
+			"name": "fare calculation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"distance\" : \"15\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/billings"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"email\" : \"de@gmail.com\",\r\n    \"password\" : \"de@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/user/login"
+			},
+			"response": []
+		},
+		{
+			"name": "addTaxi",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "update acc bal",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZAZ21haWwuY29tIiwiaWF0IjoxNzA2ODUyNDM4LCJleHAiOjE3MDY4ODg0Mzh9.Qy7WpnjnlEGS_bz15JEF_BLaLUh6rcPhJgNCuXm2Ym4"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/user/1/balance?accountBalance=97",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"user",
+						"1",
+						"balance"
+					],
+					"query": [
+						{
+							"key": "accountBalance",
+							"value": "97"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view acc details",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get acc balance after trip",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
