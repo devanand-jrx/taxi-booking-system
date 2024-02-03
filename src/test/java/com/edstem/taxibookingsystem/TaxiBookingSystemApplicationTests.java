@@ -6,12 +6,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class TaxiBookingSystemApplicationTests {
 
-	@Test
-	void contextLoads() {}
+    @Test
+    void contextLoads() {}
 
-	@Test
-	public void main() {
-		TaxiBookingSystemApplication.main(new String[] {});
-	}
-
+    @Test
+    public void main() {
+        TaxiBookingSystemApplication.main(new String[] {});
+    }
 }

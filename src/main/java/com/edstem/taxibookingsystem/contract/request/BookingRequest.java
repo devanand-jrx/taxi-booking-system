@@ -15,6 +15,4 @@ public class BookingRequest {
 
     private String pickupLocation;
     private String dropOffLocation;
-
-
 }

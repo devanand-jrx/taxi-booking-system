@@ -1,41 +1,33 @@
 package com.edstem.taxibookingsystem.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import com.edstem.taxibookingsystem.constant.Status;
 import com.edstem.taxibookingsystem.contract.request.BookingRequest;
-import com.edstem.taxibookingsystem.contract.request.DistanceRequest;
-import com.edstem.taxibookingsystem.contract.response.BillingResponse;
 import com.edstem.taxibookingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingsystem.model.Booking;
 import com.edstem.taxibookingsystem.model.Taxi;
 import com.edstem.taxibookingsystem.repository.BookingRepository;
 import com.edstem.taxibookingsystem.repository.TaxiRepository;
+import java.time.LocalTime;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
-import java.time.LocalTime;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 public class BookingServiceTest {
 
-    @InjectMocks
-    BookingService bookingService;
+    @InjectMocks BookingService bookingService;
 
-    @Mock
-    BookingRepository bookingRepository;
-    @Mock
-    TaxiRepository taxiRepository;
+    @Mock BookingRepository bookingRepository;
+    @Mock TaxiRepository taxiRepository;
 
-    @Mock
-    ModelMapper modelMapper;
+    @Mock ModelMapper modelMapper;
 
     @BeforeEach
     public void setUp() {
@@ -47,13 +39,14 @@ public class BookingServiceTest {
         Long taxiId = 1L;
         BookingRequest bookingRequest = new BookingRequest("pickup test", "dropofftest");
         Taxi nearestTaxi = Taxi.builder().build();
-        Booking booking = Booking.builder()
-                .pickupLocation(bookingRequest.getPickupLocation())
-                .dropOffLocation(bookingRequest.getDropOffLocation())
-                .bookingTime(LocalTime.parse(LocalTime.now().toString()))
-                .status(Status.BOOKED)
-                .taxi(nearestTaxi)
-                .build();
+        Booking booking =
+                Booking.builder()
+                        .pickupLocation(bookingRequest.getPickupLocation())
+                        .dropOffLocation(bookingRequest.getDropOffLocation())
+                        .bookingTime(LocalTime.parse(LocalTime.now().toString()))
+                        .status(Status.BOOKED)
+                        .taxi(nearestTaxi)
+                        .build();
         BookingResponse expectedResponse = modelMapper.map(booking, BookingResponse.class);
         when(taxiRepository.findById(any(Long.class))).thenReturn(Optional.of(nearestTaxi));
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
@@ -62,7 +55,6 @@ public class BookingServiceTest {
 
         assertEquals(expectedResponse, actualResponse);
     }
-
 
     @Test
     void testViewBooking() {
@@ -76,9 +68,8 @@ public class BookingServiceTest {
     @Test
     void testUpdateBooking() {
         Booking booking = new Booking();
-        Booking.builder()
-                .status(Status.CANCEL)
-                .build();        BookingResponse expectedResponse = modelMapper.map(booking, BookingResponse.class);
+        Booking.builder().status(Status.CANCEL).build();
+        BookingResponse expectedResponse = modelMapper.map(booking, BookingResponse.class);
         when(bookingRepository.findById(any(Long.class))).thenReturn(Optional.of(booking));
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
 
@@ -88,15 +79,20 @@ public class BookingServiceTest {
     }
 
     @Test
-    void testCancelBooking(){
+    void testCancelBooking() {
         Long bookingId = 1L;
-        Booking booking = new Booking(1L, "ernakulam test", "kakanad", 55.00, LocalTime.now(), Status.BOOKED,null, null,null);
+        Booking booking =
+                new Booking(
+                        1L,
+                        "ernakulam test",
+                        "kakanad",
+                        55.00,
+                        LocalTime.now(),
+                        Status.BOOKED,
+                        null,
+                        null,
+                        null);
         when(bookingRepository.existsById(bookingId)).thenReturn(true);
         bookingService.cancelBooking(bookingId);
     }
-
-
-
-
-
 }

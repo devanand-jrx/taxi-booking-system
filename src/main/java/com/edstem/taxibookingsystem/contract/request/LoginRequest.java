@@ -1,4 +1,5 @@
 package com.edstem.taxibookingsystem.contract.request;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

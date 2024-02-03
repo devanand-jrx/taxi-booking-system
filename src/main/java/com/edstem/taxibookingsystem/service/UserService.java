@@ -1,4 +1,5 @@
 package com.edstem.taxibookingsystem.service;
+
 import com.edstem.taxibookingsystem.contract.request.LoginRequest;
 import com.edstem.taxibookingsystem.contract.request.SignupRequest;
 import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
@@ -54,24 +55,28 @@ public class UserService {
         throw new InvalidLoginException();
     }
 
+    public AccountDetailsResponse addBalance(Long userId, Double accountBalance) {
 
-    public AccountDetailsResponse addBalance(Long userId, Double accountBalance){
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-        user = User.builder()
-                .userId(user.getUserId())
-                .name(user.getName())
-                .email(user.getEmail())
-                .accountBalance(user.getAccountBalance() +accountBalance )
-                .build();
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(() -> new UserNotFoundException("User not found"));
+        user =
+                User.builder()
+                        .userId(user.getUserId())
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .accountBalance(user.getAccountBalance() + accountBalance)
+                        .build();
         user = userRepository.save(user);
         return modelMapper.map(user, AccountDetailsResponse.class);
-
     }
-    public AccountDetailsResponse getAccountDetails(Long userId){
-        User user = userRepository.findById(userId)
-             .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+    public AccountDetailsResponse getAccountDetails(Long userId) {
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(() -> new UserNotFoundException("User not found"));
         return modelMapper.map(user, AccountDetailsResponse.class);
     }
 }

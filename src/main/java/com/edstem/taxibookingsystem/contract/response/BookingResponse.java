@@ -18,4 +18,3 @@ public class BookingResponse {
     private String bookingTime;
     private Status status;
 }
-

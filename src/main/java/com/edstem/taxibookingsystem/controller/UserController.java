@@ -1,6 +1,5 @@
 package com.edstem.taxibookingsystem.controller;
 
-
 import com.edstem.taxibookingsystem.contract.request.LoginRequest;
 import com.edstem.taxibookingsystem.contract.request.SignupRequest;
 import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
@@ -36,13 +35,13 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/balance")
-    public @ResponseBody AccountDetailsResponse addBalance(@PathVariable Long userId, @RequestParam Double accountBalance) {
+    public @ResponseBody AccountDetailsResponse addBalance(
+            @PathVariable Long userId, @RequestParam Double accountBalance) {
         return userService.addBalance(userId, accountBalance);
     }
 
     @GetMapping("/{userId}/details")
-    public @ResponseBody AccountDetailsResponse getAccountDetails(@PathVariable Long userId){
+    public @ResponseBody AccountDetailsResponse getAccountDetails(@PathVariable Long userId) {
         return userService.getAccountDetails(userId);
     }
-
 }

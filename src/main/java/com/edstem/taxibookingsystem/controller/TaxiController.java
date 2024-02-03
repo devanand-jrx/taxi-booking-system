@@ -1,6 +1,5 @@
 package com.edstem.taxibookingsystem.controller;
 
-
 import com.edstem.taxibookingsystem.contract.request.TaxiRequest;
 import com.edstem.taxibookingsystem.contract.response.TaxiResponse;
 import com.edstem.taxibookingsystem.service.TaxiService;
@@ -17,11 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TaxiController {
 
-    @Autowired
-    private TaxiService taxiService;
+    @Autowired private TaxiService taxiService;
 
     @PostMapping
-    public @ResponseBody TaxiResponse addTaxi(@RequestBody TaxiRequest taxiRequest){
+    public @ResponseBody TaxiResponse addTaxi(@RequestBody TaxiRequest taxiRequest) {
         return taxiService.addTaxi(taxiRequest);
     }
 }

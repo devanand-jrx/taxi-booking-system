@@ -8,13 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.awt.image.PixelGrabber;
-import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -25,13 +23,13 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long bookingId;
+
     private String pickupLocation;
     private String dropOffLocation;
     private Double fare;
     private LocalTime bookingTime;
     private Status status;
     private Double distance;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "taxiId")
@@ -40,6 +38,4 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;
-
-
 }

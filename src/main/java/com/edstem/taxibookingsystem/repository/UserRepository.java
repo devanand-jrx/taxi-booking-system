@@ -1,6 +1,5 @@
 package com.edstem.taxibookingsystem.repository;
 
-
 import com.edstem.taxibookingsystem.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

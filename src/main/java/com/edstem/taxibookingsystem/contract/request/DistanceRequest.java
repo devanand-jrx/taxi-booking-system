@@ -12,6 +12,4 @@ import lombok.NoArgsConstructor;
 public class DistanceRequest {
 
     private Double distance;
-
-
 }

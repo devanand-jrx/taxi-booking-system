@@ -14,18 +14,16 @@ public class TaxiService {
     private final TaxiRepository taxiRepository;
     private final ModelMapper modelMapper;
 
-    public TaxiResponse addTaxi(TaxiRequest taxiRequest){
+    public TaxiResponse addTaxi(TaxiRequest taxiRequest) {
 
-        Taxi taxi = Taxi.builder()
-                .taxiName(taxiRequest.getTaxiName())
-                .driverName(taxiRequest.getDriverName())
-                .licenseNumber(taxiRequest.getLicenseNumber())
-                .currentLocation(taxiRequest.getCurrentLocation())
-                .build();
-        taxi =   taxiRepository.save(taxi);
+        Taxi taxi =
+                Taxi.builder()
+                        .taxiName(taxiRequest.getTaxiName())
+                        .driverName(taxiRequest.getDriverName())
+                        .licenseNumber(taxiRequest.getLicenseNumber())
+                        .currentLocation(taxiRequest.getCurrentLocation())
+                        .build();
+        taxi = taxiRepository.save(taxi);
         return modelMapper.map(taxi, TaxiResponse.class);
     }
-
-
-
 }
