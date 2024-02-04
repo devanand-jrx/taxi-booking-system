@@ -24,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -54,11 +55,12 @@ public class BookingControllerTest {
                 .thenReturn(expectedResponse);
 
         mockMvc.perform(
-                        post("/bookings/" + taxiId)
+                        MockMvcRequestBuilders.post("/bookings/" + taxiId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(bookingRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
+
     }
 
     @Test
