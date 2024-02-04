@@ -8,7 +8,6 @@ import com.edstem.taxibookingsystem.contract.request.DistanceRequest;
 import com.edstem.taxibookingsystem.contract.response.BillingResponse;
 import com.edstem.taxibookingsystem.model.Booking;
 import com.edstem.taxibookingsystem.repository.BookingRepository;
-import com.edstem.taxibookingsystem.repository.TaxiRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +20,6 @@ public class BillingServiceTest {
     @InjectMocks BillingService billingService;
 
     @Mock BookingRepository bookingRepository;
-    @Mock TaxiRepository taxiRepository;
 
     @Mock ModelMapper modelMapper;
 

@@ -58,7 +58,6 @@ public class BookingControllerTest {
                                 .content(new ObjectMapper().writeValueAsString(bookingRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
-
     }
 
     @Test

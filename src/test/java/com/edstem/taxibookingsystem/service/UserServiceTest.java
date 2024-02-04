@@ -79,4 +79,33 @@ public class UserServiceTest {
 
         assertEquals(expectedResponse, actualResponse);
     }
+
+    @Test
+    public void testGetAccountDetails() {
+        Long userId = 1L;
+
+        User user = new User();
+        user =
+                User.builder()
+                        .userId(1L)
+                        .name("devanand")
+                        .email("devanand@gmail.com")
+                        .accountBalance(123D)
+                        .build();
+
+        AccountDetailsResponse expectedResponse = new AccountDetailsResponse();
+        expectedResponse =
+                AccountDetailsResponse.builder()
+                        .userId(user.getUserId())
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .accountBalance(user.getAccountBalance().longValue())
+                        .build();
+        when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(user));
+        when(modelMapper.map(user, AccountDetailsResponse.class)).thenReturn(expectedResponse);
+
+        AccountDetailsResponse actualResponse = userService.getAccountDetails(userId);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
 }

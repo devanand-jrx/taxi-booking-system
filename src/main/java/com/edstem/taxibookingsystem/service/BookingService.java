@@ -3,7 +3,6 @@ package com.edstem.taxibookingsystem.service;
 import com.edstem.taxibookingsystem.constant.Status;
 import com.edstem.taxibookingsystem.contract.request.BookingRequest;
 import com.edstem.taxibookingsystem.contract.response.BookingResponse;
-import com.edstem.taxibookingsystem.contract.response.NearestTaxiResponse;
 import com.edstem.taxibookingsystem.exception.BookingNotFoundException;
 import com.edstem.taxibookingsystem.exception.TaxiNotFoundException;
 import com.edstem.taxibookingsystem.model.Booking;
@@ -72,21 +71,5 @@ public class BookingService {
             throw new BookingNotFoundException("Booking Not Found");
         }
         bookingRepository.deleteById(bookingId);
-    }
-
-    public NearestTaxiResponse nearestTaxi(Long bookingId, Long taxiId) {
-        Booking booking =
-                bookingRepository
-                        .findById(bookingId)
-                        .orElseThrow(() -> new BookingNotFoundException("Booking Not Found"));
-        booking = Booking.builder().pickupLocation(booking.getPickupLocation()).build();
-
-        Taxi taxi =
-                taxiRepository
-                        .findById(taxiId)
-                        .orElseThrow(() -> new TaxiNotFoundException("Taxi Not Found"));
-        taxi = Taxi.builder().currentLocation(taxi.getCurrentLocation()).build();
-
-        return modelMapper.map(booking, NearestTaxiResponse.class);
     }
 }
