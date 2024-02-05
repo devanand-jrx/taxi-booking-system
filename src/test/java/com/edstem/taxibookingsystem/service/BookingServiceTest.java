@@ -82,21 +82,16 @@ public class BookingServiceTest {
     }
 
     @Test
-    void testCancelBooking() {
+    public void testUpdateBooking_BookingNotFound() {
         Long bookingId = 1L;
-        Booking booking =
-                new Booking(
-                        1L,
-                        "ernakulam test",
-                        "kakanad",
-                        55.00,
-                        LocalTime.now(),
-                        Status.BOOKED,
-                        null,
-                        null,
-                        null);
-        when(bookingRepository.existsById(bookingId)).thenReturn(true);
-        bookingService.cancelBooking(bookingId);
+
+        when(bookingRepository.findById(bookingId)).thenReturn(Optional.empty());
+
+        assertThrows(
+                BookingNotFoundException.class,
+                () -> {
+                    bookingService.updateBooking(bookingId);
+                });
     }
 
     @Test

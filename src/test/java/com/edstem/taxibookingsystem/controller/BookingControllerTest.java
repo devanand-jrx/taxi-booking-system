@@ -1,9 +1,7 @@
 package com.edstem.taxibookingsystem.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -79,17 +77,6 @@ public class BookingControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
-    }
-
-    @Test
-    void testCancelBooking() throws Exception {
-        Long bookingId = 1L;
-
-        doNothing().when(bookingService).cancelBooking(bookingId);
-
-        mockMvc.perform(delete("/bookings/" + bookingId).contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
     }
 
     @Test

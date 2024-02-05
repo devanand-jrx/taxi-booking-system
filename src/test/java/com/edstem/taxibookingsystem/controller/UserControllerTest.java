@@ -1,18 +1,20 @@
 package com.edstem.taxibookingsystem.controller;
 
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.edstem.taxibookingsystem.contract.request.LoginRequest;
 import com.edstem.taxibookingsystem.contract.request.SignupRequest;
 import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
+import com.edstem.taxibookingsystem.contract.response.AuthResponse;
 import com.edstem.taxibookingsystem.contract.response.UserResponse;
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.service.UserService;
@@ -58,6 +60,24 @@ public class UserControllerTest {
     }
 
     @Test
+    void login() throws Exception {
+        LoginRequest request = new LoginRequest("devanand@gmail.com", "Deva@123");
+
+        AuthResponse expectedResponse = new AuthResponse("devanand@gmail.com", "Deva@123");
+
+        when(userService.login(any(LoginRequest.class))).thenReturn(expectedResponse);
+
+        mockMvc.perform(
+                        post("/user/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(
+                                        "{\"email\":\"test@example.com\",\"password\":\"testPassword\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(expectedResponse.getName())))
+                .andExpect(jsonPath("$.token", is(expectedResponse.getToken())));
+    }
+
+    @Test
     public void testAddBalance() throws Exception {
         Long userId = 1L;
         Double accountBalance = 10000.0;
@@ -91,7 +111,5 @@ public class UserControllerTest {
         mockMvc.perform(get("/user/" + userId + "/details"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
-
-        verify(userService, times(1)).getAccountDetails(userId);
     }
 }

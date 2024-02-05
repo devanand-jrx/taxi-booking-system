@@ -9,6 +9,7 @@ import com.edstem.taxibookingsystem.contract.request.DistanceRequest;
 import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
 import com.edstem.taxibookingsystem.contract.response.BillingResponse;
 import com.edstem.taxibookingsystem.exception.InsufficientBalanceException;
+import com.edstem.taxibookingsystem.exception.UserNotFoundException;
 import com.edstem.taxibookingsystem.model.Booking;
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.BookingRepository;
@@ -99,5 +100,20 @@ public class BillingServiceTest {
         String actualMessage = exception.getMessage();
 
         assertEquals(expectedMessage, actualMessage);
+    }
+
+    @Test
+    public void testBalanceAmount_UserNotFound() {
+        Long userId = 1L;
+        Double accountBalance = 100.0;
+        Double fare = 100.0;
+
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(
+                UserNotFoundException.class,
+                () -> {
+                    billingService.balanceAmount(userId, accountBalance, fare);
+                });
     }
 }

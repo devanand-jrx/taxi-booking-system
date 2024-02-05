@@ -23,13 +23,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserServiceTest {
 
     @InjectMocks UserService userService;
 
-    @InjectMocks JwtService jwtService;
+    @InjectMocks @Autowired JwtService jwtService;
 
     @Mock UserRepository userRepository;
     @Mock PasswordEncoder passwordEncoder;
@@ -128,6 +129,19 @@ public class UserServiceTest {
     }
 
     @Test
+    public void testGetAccountDetails_UserNotFound() {
+        Long userId = 1L;
+
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(
+                UserNotFoundException.class,
+                () -> {
+                    userService.getAccountDetails(userId);
+                });
+    }
+
+    @Test
     void signUp_WhenEmailExists_ThrowsEntityExistsException() {
         SignupRequest request = new SignupRequest("deva@gmail.com", "deva", "Deva@123");
 
@@ -143,6 +157,26 @@ public class UserServiceTest {
 
         assertThrows(EntityNotFoundException.class, () -> userService.login(request));
     }
+
+    //    @Test
+    //    void testLogin() throws Exception {
+    //        LoginRequest request = new LoginRequest("deva@gmail.com", "Deva@123");
+    //
+    //        User user =
+    //                User.builder()
+    //                        .email(request.getEmail())
+    //                        .password(request.getPassword())
+    //                        .build();
+    //
+    //        when(userRepository.existsByEmail(request.getEmail())).thenReturn(true);
+    //        when(userRepository.findByEmail(request.getEmail())).thenReturn(user);
+    //        when(passwordEncoder.matches(request.getPassword(),
+    // user.getPassword())).thenReturn(true);
+    //
+    //        assertEquals()
+    //
+    //
+    //    }
 
     @Test
     void login_WhenPasswordDoesNotMatch_ThrowsInvalidLoginException() {
@@ -160,4 +194,33 @@ public class UserServiceTest {
 
         assertThrows(InvalidLoginException.class, () -> userService.login(request));
     }
+    //    @Test
+    //    public void testLogin() throws Exception {
+    //
+    //
+    //        String email = "test@example.com";
+    //        String password = "password";
+    //        String token = "token";
+    //        User user = new User();
+    //
+    //
+    //        AuthResponse expectedToken = AuthResponse.builder()
+    //                .token(token)
+    //                .build();
+    //
+    //        when(userRepository.existsByEmail(email)).thenReturn(true);
+    //        when(userRepository.findByEmail(email)).thenReturn(user);
+    //        when(passwordEncoder.matches(password, user.getPassword())).thenReturn(true);
+    //        when(jwtService.generateToken(user)).thenReturn(expectedToken);
+    //
+    //
+    //        LoginRequest loginRequest = new LoginRequest();
+    //        loginRequest.setEmail(email);
+    //        loginRequest.setPassword(password);
+    //
+    //        AuthResponse authResponse = userService.login(loginRequest);
+    //
+    //        assertEquals(expectedToken, token);
+    //    }
+
 }

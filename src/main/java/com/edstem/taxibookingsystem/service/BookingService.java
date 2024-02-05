@@ -65,11 +65,4 @@ public class BookingService {
         booking = bookingRepository.save(booking);
         return modelMapper.map(booking, BookingResponse.class);
     }
-
-    public void cancelBooking(Long bookingId) {
-        if (!bookingRepository.existsById(bookingId)) {
-            throw new BookingNotFoundException("Booking Not Found");
-        }
-        bookingRepository.deleteById(bookingId);
-    }
 }
