@@ -1,12 +1,15 @@
 package com.edstem.taxibookingsystem.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.edstem.taxibookingsystem.constant.Status;
 import com.edstem.taxibookingsystem.contract.request.BookingRequest;
 import com.edstem.taxibookingsystem.contract.response.BookingResponse;
+import com.edstem.taxibookingsystem.exception.BookingNotFoundException;
+import com.edstem.taxibookingsystem.exception.TaxiNotFoundException;
 import com.edstem.taxibookingsystem.model.Booking;
 import com.edstem.taxibookingsystem.model.Taxi;
 import com.edstem.taxibookingsystem.repository.BookingRepository;
@@ -94,5 +97,32 @@ public class BookingServiceTest {
                         null);
         when(bookingRepository.existsById(bookingId)).thenReturn(true);
         bookingService.cancelBooking(bookingId);
+    }
+
+    @Test
+    public void testAddBooking_TaxiNotFound() {
+        Long taxiId = 1L;
+        BookingRequest bookingRequest = new BookingRequest("Kakkanad", "ernakulam");
+
+        when(taxiRepository.findById(taxiId)).thenReturn(Optional.empty());
+
+        assertThrows(
+                TaxiNotFoundException.class,
+                () -> {
+                    bookingService.addBooking(taxiId, bookingRequest);
+                });
+    }
+
+    @Test
+    public void testViewBooking_BookingNotFound() {
+        Long bookingId = 1L;
+
+        when(bookingRepository.findById(bookingId)).thenReturn(Optional.empty());
+
+        assertThrows(
+                BookingNotFoundException.class,
+                () -> {
+                    bookingService.viewBooking(bookingId);
+                });
     }
 }

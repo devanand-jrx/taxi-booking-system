@@ -1,15 +1,21 @@
 package com.edstem.taxibookingsystem.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.edstem.taxibookingsystem.contract.request.LoginRequest;
 import com.edstem.taxibookingsystem.contract.request.SignupRequest;
 import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
 import com.edstem.taxibookingsystem.contract.response.UserResponse;
+import com.edstem.taxibookingsystem.exception.InvalidLoginException;
+import com.edstem.taxibookingsystem.exception.UserNotFoundException;
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.UserRepository;
 import com.edstem.taxibookingsystem.security.JwtService;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,11 +87,24 @@ public class UserServiceTest {
     }
 
     @Test
+    public void testAddBalance_UserNotFound() {
+        Long userId = 1L;
+        Double accountBalance = 100.0;
+
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(
+                UserNotFoundException.class,
+                () -> {
+                    userService.addBalance(userId, accountBalance);
+                });
+    }
+
+    @Test
     public void testGetAccountDetails() {
         Long userId = 1L;
 
-        User user = new User();
-        user =
+        User user =
                 User.builder()
                         .userId(1L)
                         .name("devanand")
@@ -93,13 +112,12 @@ public class UserServiceTest {
                         .accountBalance(123D)
                         .build();
 
-        AccountDetailsResponse expectedResponse = new AccountDetailsResponse();
-        expectedResponse =
+        AccountDetailsResponse expectedResponse =
                 AccountDetailsResponse.builder()
                         .userId(user.getUserId())
                         .name(user.getName())
                         .email(user.getEmail())
-                        .accountBalance(user.getAccountBalance().longValue())
+                        .accountBalance(user.getAccountBalance())
                         .build();
         when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(user));
         when(modelMapper.map(user, AccountDetailsResponse.class)).thenReturn(expectedResponse);
@@ -107,5 +125,39 @@ public class UserServiceTest {
         AccountDetailsResponse actualResponse = userService.getAccountDetails(userId);
 
         assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void signUp_WhenEmailExists_ThrowsEntityExistsException() {
+        SignupRequest request = new SignupRequest("deva@gmail.com", "deva", "Deva@123");
+
+        when(userRepository.existsByEmail(request.getEmail())).thenReturn(true);
+        assertThrows(EntityExistsException.class, () -> userService.signUp(request));
+    }
+
+    @Test
+    void login_WhenEmailDoesNotExist_ThrowsEntityNotFoundException() {
+        LoginRequest request = new LoginRequest("deva@gmail.com", "Deva@123");
+
+        when(userRepository.existsByEmail(request.getEmail())).thenReturn(false);
+
+        assertThrows(EntityNotFoundException.class, () -> userService.login(request));
+    }
+
+    @Test
+    void login_WhenPasswordDoesNotMatch_ThrowsInvalidLoginException() {
+        LoginRequest request = new LoginRequest("deva@gmail.com", "Deva@123");
+
+        User user =
+                User.builder()
+                        .email(request.getEmail())
+                        .password(passwordEncoder.encode("wrongPassword"))
+                        .build();
+
+        when(userRepository.existsByEmail(request.getEmail())).thenReturn(true);
+        when(userRepository.findByEmail(request.getEmail())).thenReturn(user);
+        when(passwordEncoder.matches(request.getPassword(), user.getPassword())).thenReturn(false);
+
+        assertThrows(InvalidLoginException.class, () -> userService.login(request));
     }
 }

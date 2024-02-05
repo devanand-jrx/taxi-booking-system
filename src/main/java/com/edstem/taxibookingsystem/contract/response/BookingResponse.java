@@ -1,12 +1,11 @@
 package com.edstem.taxibookingsystem.contract.response;
 
-import com.edstem.taxibookingsystem.constant.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,5 +15,5 @@ public class BookingResponse {
     private String pickupLocation;
     private String dropOffLocation;
     private String bookingTime;
-    private Status status;
+    private String status;
 }

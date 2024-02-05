@@ -5,6 +5,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -46,7 +47,7 @@ public class BookingControllerTest {
                         .pickupLocation("ernakulam")
                         .dropOffLocation("kakkanad")
                         .bookingTime(LocalTime.now().toString())
-                        .status(Status.BOOKED)
+                        .status(Status.BOOKED.toString())
                         .build();
 
         when(bookingService.addBooking(any(Long.class), any(BookingRequest.class)))
@@ -71,7 +72,7 @@ public class BookingControllerTest {
                         "ernakulam test",
                         "kakanad",
                         LocalTime.now().toString(),
-                        Status.BOOKED);
+                        Status.BOOKED.toString());
         when(bookingService.viewBooking(bookingId)).thenReturn(expectedResponse);
 
         mockMvc.perform(get("/bookings/" + bookingId))
@@ -88,6 +89,14 @@ public class BookingControllerTest {
 
         mockMvc.perform(delete("/bookings/" + bookingId).contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testUpdateBooking() throws Exception {
+        Long bookingId = 1L;
+
+        mockMvc.perform(put("/bookings/" + bookingId).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 }

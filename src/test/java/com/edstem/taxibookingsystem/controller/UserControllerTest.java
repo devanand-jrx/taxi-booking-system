@@ -67,7 +67,7 @@ public class UserControllerTest {
                         .userId(userId)
                         .name("devanand")
                         .email("devanand@example.com")
-                        .accountBalance(accountBalance.longValue())
+                        .accountBalance(accountBalance)
                         .build();
 
         when(userService.addBalance(any(Long.class), anyDouble())).thenReturn(expectedResponse);
@@ -85,7 +85,7 @@ public class UserControllerTest {
         Long userId = 1L;
 
         AccountDetailsResponse expectedResponse =
-                new AccountDetailsResponse(1L, "devanand", "devanand@gmail.com", 556L);
+                new AccountDetailsResponse(1L, "devanand", "devanand@gmail.com", 556D);
         when(userService.getAccountDetails(any(Long.class))).thenReturn(expectedResponse);
 
         mockMvc.perform(get("/user/" + userId + "/details"))
