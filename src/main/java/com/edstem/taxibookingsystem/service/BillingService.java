@@ -36,7 +36,7 @@ public class BillingService {
                         .findById(userId)
                         .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        Double updatedBalance = user.getAccountBalance() + accountBalance - fare;
+        double updatedBalance = user.getAccountBalance() + accountBalance - fare;
         if (updatedBalance < 0) {
             throw new InsufficientBalanceException("Insufficient balance in the account");
         }

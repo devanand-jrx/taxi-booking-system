@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class TaxiResponse {
 
     private String taxiId;

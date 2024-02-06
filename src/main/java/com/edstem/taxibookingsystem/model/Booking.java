@@ -2,6 +2,8 @@ package com.edstem.taxibookingsystem.model;
 
 import com.edstem.taxibookingsystem.constant.Status;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,14 +23,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Booking {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
 
     private String pickupLocation;
     private String dropOffLocation;
     private Double fare;
     private LocalTime bookingTime;
+
+    @Enumerated(EnumType.STRING)
     private Status status;
+
     private Double distance;
 
     @ManyToOne(fetch = FetchType.LAZY)

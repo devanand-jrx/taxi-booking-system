@@ -61,12 +61,16 @@ public class UserService {
                 userRepository
                         .findById(userId)
                         .orElseThrow(() -> new UserNotFoundException("User not found"));
+        Double currentBalance = user.getAccountBalance();
+        if (currentBalance == null) {
+            currentBalance = 0.0;
+        }
         user =
                 User.builder()
                         .userId(user.getUserId())
                         .name(user.getName())
                         .email(user.getEmail())
-                        .accountBalance(user.getAccountBalance() + accountBalance)
+                        .accountBalance(currentBalance + accountBalance)
                         .build();
         user = userRepository.save(user);
         return modelMapper.map(user, AccountDetailsResponse.class);
