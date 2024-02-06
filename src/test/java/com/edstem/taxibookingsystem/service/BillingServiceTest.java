@@ -3,17 +3,20 @@ package com.edstem.taxibookingsystem.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-import com.edstem.taxibookingsystem.contract.request.DistanceRequest;
+import com.edstem.taxibookingsystem.constant.Status;
 import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
 import com.edstem.taxibookingsystem.contract.response.BillingResponse;
+import com.edstem.taxibookingsystem.exception.BookingNotFoundException;
 import com.edstem.taxibookingsystem.exception.InsufficientBalanceException;
 import com.edstem.taxibookingsystem.exception.UserNotFoundException;
 import com.edstem.taxibookingsystem.model.Booking;
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.BookingRepository;
 import com.edstem.taxibookingsystem.repository.UserRepository;
+import java.time.LocalTime;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,17 +41,45 @@ public class BillingServiceTest {
     }
 
     @Test
-    void fareCalculateTest() {
-        DistanceRequest distanceRequest = new DistanceRequest(14D);
+    public void testFareCalculate() {
+        Long bookingId = 1L;
+        Double distance = 10.0;
         double minimumCharge = 22.00;
-        Booking billing =
-                Booking.builder().fare(distanceRequest.getDistance() * minimumCharge).build();
 
-        BillingResponse expectedBookingResponse = modelMapper.map(billing, BillingResponse.class);
-        when(bookingRepository.save(any(Booking.class))).thenReturn(billing);
+        Booking booking =
+                Booking.builder()
+                        .bookingId(bookingId)
+                        .dropOffLocation("Location1")
+                        .pickupLocation("Location2")
+                        .bookingTime(LocalTime.now())
+                        .status(Status.CANCEL)
+                        .build();
 
-        BillingResponse actualBookingResponse = billingService.fareCalculate(distanceRequest);
-        assertEquals(expectedBookingResponse, actualBookingResponse);
+        BillingResponse billingResponse =
+                BillingResponse.builder().fare(distance * minimumCharge).build();
+
+        when(bookingRepository.findById(bookingId)).thenReturn(Optional.of(booking));
+        when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
+        when(modelMapper.map(any(Booking.class), eq(BillingResponse.class)))
+                .thenReturn(billingResponse);
+
+        BillingResponse result = billingService.fareCalculate(bookingId, distance);
+
+        assertEquals(distance * minimumCharge, result.getFare());
+    }
+
+    @Test
+    public void testFareCalculate_BookingNotFoundException() {
+        Long bookingId = 1L;
+        Double distance = 10.0;
+
+        when(bookingRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+
+        assertThrows(
+                BookingNotFoundException.class,
+                () -> {
+                    billingService.fareCalculate(bookingId, distance);
+                });
     }
 
     @Test

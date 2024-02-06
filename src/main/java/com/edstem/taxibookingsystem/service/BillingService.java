@@ -1,8 +1,8 @@
 package com.edstem.taxibookingsystem.service;
 
-import com.edstem.taxibookingsystem.contract.request.DistanceRequest;
 import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
 import com.edstem.taxibookingsystem.contract.response.BillingResponse;
+import com.edstem.taxibookingsystem.exception.BookingNotFoundException;
 import com.edstem.taxibookingsystem.exception.InsufficientBalanceException;
 import com.edstem.taxibookingsystem.exception.UserNotFoundException;
 import com.edstem.taxibookingsystem.model.Booking;
@@ -21,10 +21,24 @@ public class BillingService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public BillingResponse fareCalculate(DistanceRequest distanceRequest) {
+    public BillingResponse fareCalculate(Long bookingId, Double distance) {
+
+        Booking booking =
+                bookingRepository
+                        .findById(bookingId)
+                        .orElseThrow(() -> new BookingNotFoundException("Booking Not Found"));
         double minimumCharge = 22.00;
         Booking billing =
-                Booking.builder().fare(distanceRequest.getDistance() * minimumCharge).build();
+                Booking.builder()
+                        .bookingId(bookingId)
+                        .bookingTime(booking.getBookingTime())
+                        .pickupLocation(booking.getPickupLocation())
+                        .dropOffLocation(booking.getDropOffLocation())
+                        .fare(distance * minimumCharge)
+                        .status(booking.getStatus())
+                        .taxi(booking.getTaxi())
+                        .build();
+
         billing = bookingRepository.save(billing);
         return modelMapper.map(billing, BillingResponse.class);
     }

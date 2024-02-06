@@ -1,14 +1,14 @@
 package com.edstem.taxibookingsystem.controller;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.edstem.taxibookingsystem.contract.request.DistanceRequest;
 import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
 import com.edstem.taxibookingsystem.contract.response.BillingResponse;
 import com.edstem.taxibookingsystem.service.BillingService;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
@@ -33,17 +32,19 @@ public class BillingControllerTest {
 
     @Test
     public void testFareCalculate() throws Exception {
-        DistanceRequest distanceRequest = new DistanceRequest();
-        BillingResponse expectedResponse = new BillingResponse();
+        Long bookingId = 1L;
+        Double distance = 10.0;
+        Double expectedFare = 100.0;
 
-        when(billingService.fareCalculate(any(DistanceRequest.class))).thenReturn(expectedResponse);
+        when(billingService.fareCalculate(bookingId, distance))
+                .thenReturn(new BillingResponse(expectedFare));
 
         mockMvc.perform(
-                        post("/billings")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(new ObjectMapper().writeValueAsString(distanceRequest)))
+                        put("/billings")
+                                .param("bookingId", bookingId.toString())
+                                .param("distance", distance.toString()))
                 .andExpect(status().isOk())
-                .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
+                .andExpect(jsonPath("$.fare", is(expectedFare)));
     }
 
     @Test

@@ -5,13 +5,7 @@
 ### addBooking
 - While booking, the status is showing as an integer value.
 - The user_id is showing as null.
-- The distance and fare are showing as null.
-### updateBooking
-- 500 Internal Server error while hitting
-### addBalance
-* accountBalance showing null in user details
-### balanceAmount
-* This API is returning a 400 bad request error.
+
 
 ## General Issues
 - validations,exceptions are not working

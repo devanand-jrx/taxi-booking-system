@@ -34,8 +34,6 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private Double distance;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "taxiId")
     private Taxi taxi;
