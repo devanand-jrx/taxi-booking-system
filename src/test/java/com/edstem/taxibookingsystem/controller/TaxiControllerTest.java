@@ -33,7 +33,8 @@ public class TaxiControllerTest {
     void testAddTaxi() throws Exception {
         TaxiRequest taxiRequest = new TaxiRequest("Polo", "Tommy", 43333L, "Kakkand");
         ;
-        TaxiResponse expectedResponse = new TaxiResponse(1L, "Polo", "Tommy", 43333L, "Kakkand");
+        TaxiResponse expectedResponse =
+                new TaxiResponse("1L", "Polo", "Tommy", "43333L", "Kakkand");
         when(taxiService.addTaxi(any(TaxiRequest.class))).thenReturn(expectedResponse);
 
         mockMvc.perform(

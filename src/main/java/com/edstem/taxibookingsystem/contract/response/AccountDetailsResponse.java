@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AccountDetailsResponse {
 
-    private Long userId;
+    private String userId;
     private String name;
     private String email;
     private Double accountBalance;

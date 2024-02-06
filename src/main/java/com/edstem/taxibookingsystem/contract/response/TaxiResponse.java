@@ -7,9 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public class TaxiResponse {
 
-    private Long taxiId;
+    private String taxiId;
     private String taxiName;
     private String driverName;
-    private Long licenseNumber;
+    private String licenseNumber;
     private String currentLocation;
 }

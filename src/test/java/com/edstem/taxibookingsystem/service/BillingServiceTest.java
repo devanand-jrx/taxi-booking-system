@@ -68,7 +68,7 @@ public class BillingServiceTest {
 
         AccountDetailsResponse response =
                 AccountDetailsResponse.builder()
-                        .userId(userId)
+                        .userId(userId.toString())
                         .accountBalance(accountBalance - fare)
                         .build();
 

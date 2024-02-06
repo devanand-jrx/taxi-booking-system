@@ -17,9 +17,11 @@ import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
 import com.edstem.taxibookingsystem.contract.response.AuthResponse;
 import com.edstem.taxibookingsystem.contract.response.UserResponse;
 import com.edstem.taxibookingsystem.model.User;
+import com.edstem.taxibookingsystem.repository.UserRepository;
 import com.edstem.taxibookingsystem.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,6 +36,8 @@ public class UserControllerTest {
     @Autowired private MockMvc mockMvc;
 
     @MockBean private UserService userService;
+
+    @Mock private UserRepository userRepository;
 
     @Test
     void testSignUp() throws Exception {
@@ -84,7 +88,7 @@ public class UserControllerTest {
 
         AccountDetailsResponse expectedResponse =
                 AccountDetailsResponse.builder()
-                        .userId(userId)
+                        .userId(userId.toString())
                         .name("devanand")
                         .email("devanand@example.com")
                         .accountBalance(accountBalance)
@@ -105,7 +109,7 @@ public class UserControllerTest {
         Long userId = 1L;
 
         AccountDetailsResponse expectedResponse =
-                new AccountDetailsResponse(1L, "devanand", "devanand@gmail.com", 556D);
+                new AccountDetailsResponse("1L", "devanand", "devanand@gmail.com", 556D);
         when(userService.getAccountDetails(any(Long.class))).thenReturn(expectedResponse);
 
         mockMvc.perform(get("/user/" + userId + "/details"))
