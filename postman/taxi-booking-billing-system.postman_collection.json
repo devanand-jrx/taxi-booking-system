@@ -1,0 +1,252 @@
+{
+	"info": {
+		"_postman_id": "495a58d7-3f64-4af1-a4f3-b4f89b056bc5",
+		"name": "taxi-booking-billing-system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28643575"
+	},
+	"item": [
+		{
+			"name": "add boooking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZnQGdtYWlsLmNvbSIsImlhdCI6MTcwNzI4MjkwMSwiZXhwIjoxNzA3MzE4OTAxfQ.WTNwt5UfBRMbPjwnaaIPbOiqM5n6oUuAHQ_-QZKQHRs"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pickupLocation\" : \"ernakulam west\",\r\n    \"dropOffLocation\" : \"kakkanad east\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/bookings/1"
+			},
+			"response": []
+		},
+		{
+			"name": "view booking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhQGdtYWlsLmNvbSIsImlhdCI6MTcwNzIyOTI1MywiZXhwIjoxNzA3MjY1MjUzfQ.yqu_koLiqMWCJalV4-PZ0KS9JqR1a6oPJR86Y313hyE"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8082/bookings/1"
+			},
+			"response": []
+		},
+		{
+			"name": "cancel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhQGdtYWlsLmNvbSIsImlhdCI6MTcwNzIyOTI1MywiZXhwIjoxNzA3MjY1MjUzfQ.yqu_koLiqMWCJalV4-PZ0KS9JqR1a6oPJR86Y313hyE"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"url": "http://localhost:8082/bookings/1"
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"abcdef\",\r\n    \"email\" : \"abcdefg@gmail.com\",\r\n    \"password\" : \"acd@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/user/signup"
+			},
+			"response": []
+		},
+		{
+			"name": "fare calculation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZnQGdtYWlsLmNvbSIsImlhdCI6MTcwNzI4MjkwMSwiZXhwIjoxNzA3MzE4OTAxfQ.WTNwt5UfBRMbPjwnaaIPbOiqM5n6oUuAHQ_-QZKQHRs"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/billings?bookingId=9&distance=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"billings"
+					],
+					"query": [
+						{
+							"key": "bookingId",
+							"value": "9"
+						},
+						{
+							"key": "distance",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update acc bal",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhQGdtYWlsLmNvbSIsImlhdCI6MTcwNzIyOTI1MywiZXhwIjoxNzA3MjY1MjUzfQ.yqu_koLiqMWCJalV4-PZ0KS9JqR1a6oPJR86Y313hyE"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/user/1/balance?accountBalance=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"user",
+						"1",
+						"balance"
+					],
+					"query": [
+						{
+							"key": "accountBalance",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n  \"email\" : \"abcdefg@gmail.com\",\r\n    \"password\" : \"acd@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/user/login"
+			},
+			"response": []
+		},
+		{
+			"name": "addTaxi",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZnQGdtYWlsLmNvbSIsImlhdCI6MTcwNzI4MjkwMSwiZXhwIjoxNzA3MzE4OTAxfQ.WTNwt5UfBRMbPjwnaaIPbOiqM5n6oUuAHQ_-QZKQHRs"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"taxiName\": \"polo\",\r\n    \"driverName\" : \"Tom\",\r\n    \"licenseNumber\" : \"4785566\",\r\n    \"currentLocation\" : \"Ernakulam\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/taxi"
+			},
+			"response": []
+		},
+		{
+			"name": "view acc details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZnQGdtYWlsLmNvbSIsImlhdCI6MTcwNzI4MjkwMSwiZXhwIjoxNzA3MzE4OTAxfQ.WTNwt5UfBRMbPjwnaaIPbOiqM5n6oUuAHQ_-QZKQHRs"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8082/user/1/details"
+			},
+			"response": []
+		},
+		{
+			"name": "get acc balance after trip",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNkZWZnQGdtYWlsLmNvbSIsImlhdCI6MTcwNzI4MjkwMSwiZXhwIjoxNzA3MzE4OTAxfQ.WTNwt5UfBRMbPjwnaaIPbOiqM5n6oUuAHQ_-QZKQHRs"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/billings/1?accountBalance=1&fare=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"billings",
+						"1"
+					],
+					"query": [
+						{
+							"key": "accountBalance",
+							"value": "1"
+						},
+						{
+							"key": "fare",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
