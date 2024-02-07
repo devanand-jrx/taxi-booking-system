@@ -30,14 +30,14 @@ public class SecurityConfig {
         return new UserInfoUserDetailsService(userRepository);
     }
 
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         (requests) ->
-                                requests.requestMatchers(HttpMethod.POST, "/**")
-                                        .permitAll()
-                                        .requestMatchers("/**")
+                                requests.requestMatchers(HttpMethod.POST, "/user/**")
                                         .permitAll()
                                         .requestMatchers(
                                                 "/swagger-ui.html",
@@ -45,8 +45,7 @@ public class SecurityConfig {
                                                 "/v3/api-docs/**",
                                                 "/swagger-resources/**")
                                         .permitAll()
-                                        .requestMatchers("/error/**")
-                                        .permitAll()
+
                                         .anyRequest()
                                         .authenticated())
                 .sessionManagement(
