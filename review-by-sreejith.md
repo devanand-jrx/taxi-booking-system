@@ -9,7 +9,7 @@
 - distance showing null
 ### Authentication
 - The API endpoints are functioning without authentication, as JWT-based authentication is enabled.
-### updateBooking 
+### updateBooking
 - It's advisable to give the name cancelBooking
 - distance,fare,taxiId and userId showing null while update booking
 
