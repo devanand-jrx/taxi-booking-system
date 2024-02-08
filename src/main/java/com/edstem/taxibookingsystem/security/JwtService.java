@@ -55,25 +55,25 @@ public class JwtService {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String name = extractUsername(token);
+        return (name.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     public AuthResponse generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, user.getEmail());
+        return createToken(claims, user.getName());
     }
 
-    private AuthResponse createToken(Map<String, Object> claims, String userName) {
+    private AuthResponse createToken(Map<String, Object> claims, String name) {
         String generatedToken =
                 Jwts.builder()
                         .setClaims(claims)
-                        .setSubject(userName)
+                        .setSubject(name)
                         .setIssuedAt(new Date(System.currentTimeMillis()))
                         .setExpiration(new Date(System.currentTimeMillis() + EXPIRY))
                         .signWith(getSignKey(), SignatureAlgorithm.HS256)
                         .compact();
-        return AuthResponse.builder().name(userName).token(generatedToken).build();
+        return AuthResponse.builder().name(name).token(generatedToken).build();
     }
 
     private Key getSignKey() {

@@ -9,10 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserInfoUserDetails implements UserDetails {
     private final String email;
+    private final String name;
     private final String password;
 
     public UserInfoUserDetails(User user) {
         email = user.getEmail();
+        name = user.getName();
         password = user.getPassword();
     }
 
@@ -28,7 +30,7 @@ public class UserInfoUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return name;
     }
 
     @Override
