@@ -5,10 +5,13 @@ import com.edstem.taxibookingsystem.contract.request.BookingRequest;
 import com.edstem.taxibookingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingsystem.exception.BookingNotFoundException;
 import com.edstem.taxibookingsystem.exception.TaxiNotFoundException;
+import com.edstem.taxibookingsystem.exception.UserNotFoundException;
 import com.edstem.taxibookingsystem.model.Booking;
 import com.edstem.taxibookingsystem.model.Taxi;
+import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.BookingRepository;
 import com.edstem.taxibookingsystem.repository.TaxiRepository;
+import com.edstem.taxibookingsystem.repository.UserRepository;
 import java.time.LocalTime;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,10 +22,19 @@ import org.springframework.stereotype.Service;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
+
+    private final UserRepository userRepository;
+
     private final TaxiRepository taxiRepository;
+
     private final ModelMapper modelMapper;
 
-    public BookingResponse addBooking(Long taxiId, BookingRequest bookingRequest) {
+    public BookingResponse addBooking(Long userId, Long taxiId, BookingRequest bookingRequest) {
+
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         Taxi nearestTaxi =
                 taxiRepository
@@ -31,6 +43,7 @@ public class BookingService {
 
         Booking booking =
                 Booking.builder()
+                        .user(user)
                         .pickupLocation(bookingRequest.getPickupLocation())
                         .dropOffLocation(bookingRequest.getDropOffLocation())
                         .bookingTime(LocalTime.parse(LocalTime.now().toString()))

@@ -6,12 +6,11 @@ import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
 import com.edstem.taxibookingsystem.contract.response.AuthResponse;
 import com.edstem.taxibookingsystem.contract.response.UserResponse;
 import com.edstem.taxibookingsystem.exception.InvalidLoginException;
+import com.edstem.taxibookingsystem.exception.UserAlreadyExistsException;
 import com.edstem.taxibookingsystem.exception.UserNotFoundException;
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.UserRepository;
 import com.edstem.taxibookingsystem.security.JwtService;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +29,7 @@ public class UserService {
 
     public UserResponse signUp(SignupRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new EntityExistsException("Invalid Signup");
+            throw new UserAlreadyExistsException("Email already exists");
         }
         User user =
                 User.builder()
@@ -46,7 +45,7 @@ public class UserService {
         String email = request.getEmail();
         String password = request.getPassword();
         if (!userRepository.existsByEmail(email)) {
-            throw new EntityNotFoundException("Invalid login");
+            throw new UserNotFoundException("Check your email and password entered correctly");
         }
         User user = userRepository.findByEmail(request.getEmail());
         if (passwordEncoder.matches(password, user.getPassword())) {

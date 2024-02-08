@@ -20,7 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 public class TaxiControllerTest {
 
     @Autowired private MockMvc mockMvc;
@@ -31,14 +31,16 @@ public class TaxiControllerTest {
 
     @Test
     void testAddTaxi() throws Exception {
+        Long userId = 1L;
         TaxiRequest taxiRequest = new TaxiRequest("Polo", "Tommy", 43333L, "Kakkand");
         ;
         TaxiResponse expectedResponse =
-                new TaxiResponse("1L", "Polo", "Tommy", "43333L", "Kakkand");
-        when(taxiService.addTaxi(any(TaxiRequest.class))).thenReturn(expectedResponse);
+                new TaxiResponse("1L", "1L", "Polo", "Tommy", "43333L", "Kakkand");
+        when(taxiService.addTaxi(any(Long.class), any(TaxiRequest.class)))
+                .thenReturn(expectedResponse);
 
         mockMvc.perform(
-                        post("/taxi")
+                        post("/taxi/" + userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(taxiRequest)))
                 .andDo(print())

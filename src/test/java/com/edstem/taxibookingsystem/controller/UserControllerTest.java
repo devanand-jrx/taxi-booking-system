@@ -30,7 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 public class UserControllerTest {
 
     @Autowired private MockMvc mockMvc;
@@ -55,7 +55,7 @@ public class UserControllerTest {
         when(userService.signUp(any(SignupRequest.class))).thenReturn(expectedResponse);
 
         mockMvc.perform(
-                        post("/user/signup")
+                        post("/v1/user/signup")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(
                                         "{\"email\":\"vignesh@example.com\",\"name\":\"vignesh\",\"password\":\"vig@123\"}"))
@@ -72,7 +72,7 @@ public class UserControllerTest {
         when(userService.login(any(LoginRequest.class))).thenReturn(expectedResponse);
 
         mockMvc.perform(
-                        post("/user/login")
+                        post("/v1/user/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(
                                         "{\"email\":\"test@example.com\",\"password\":\"testPassword\"}"))
@@ -97,7 +97,7 @@ public class UserControllerTest {
         when(userService.addBalance(any(Long.class), anyDouble())).thenReturn(expectedResponse);
 
         mockMvc.perform(
-                        put("/user/" + userId + "/balance")
+                        put("/v1/" + userId + "/balance")
                                 .param("accountBalance", accountBalance.toString())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -112,7 +112,7 @@ public class UserControllerTest {
                 new AccountDetailsResponse("1L", "devanand", "devanand@gmail.com", 556D);
         when(userService.getAccountDetails(any(Long.class))).thenReturn(expectedResponse);
 
-        mockMvc.perform(get("/user/" + userId + "/details"))
+        mockMvc.perform(get("/v1/" + userId + "/details"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(expectedResponse)));
     }

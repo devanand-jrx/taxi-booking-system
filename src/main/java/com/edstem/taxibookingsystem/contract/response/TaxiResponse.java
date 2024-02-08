@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class TaxiResponse {
 
     private String taxiId;
+    private String userId;
     private String taxiName;
     private String driverName;
     private String licenseNumber;

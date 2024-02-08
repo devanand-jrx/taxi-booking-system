@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 public class BookingControllerTest {
     @Autowired private MockMvc mockMvc;
 
@@ -34,12 +34,14 @@ public class BookingControllerTest {
 
     @Test
     void testAddBooking() throws Exception {
+        Long userId = 3L;
         Long taxiId = 1L;
 
         BookingRequest bookingRequest = new BookingRequest("ernakulam test", "kakanad");
 
         BookingResponse expectedResponse =
                 BookingResponse.builder()
+                        .userId("3L")
                         .taxiId("1L")
                         .bookingId("2L")
                         .pickupLocation("ernakulam")
@@ -48,11 +50,12 @@ public class BookingControllerTest {
                         .status(Status.BOOKED.toString())
                         .build();
 
-        when(bookingService.addBooking(any(Long.class), any(BookingRequest.class)))
+        when(bookingService.addBooking(
+                        any(Long.class), (any(Long.class)), any(BookingRequest.class)))
                 .thenReturn(expectedResponse);
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/bookings/" + taxiId)
+                        MockMvcRequestBuilders.post("/bookings/" + userId + "/" + taxiId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(bookingRequest)))
                 .andExpect(status().isOk())
@@ -66,6 +69,7 @@ public class BookingControllerTest {
         BookingResponse expectedResponse =
                 new BookingResponse(
                         "2L",
+                        "1L",
                         "1L",
                         "ernakulam test",
                         "kakanad",

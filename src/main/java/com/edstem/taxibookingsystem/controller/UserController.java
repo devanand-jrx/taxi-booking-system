@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/v1")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/signup")
+    @PostMapping("/user/signup")
     public UserResponse SignUp(@Valid @RequestBody SignupRequest request) {
         return userService.signUp(request);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public AuthResponse login(@Valid @RequestBody LoginRequest request) throws Exception {
         return userService.login(request);
     }

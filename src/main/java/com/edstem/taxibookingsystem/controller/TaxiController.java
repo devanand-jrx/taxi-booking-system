@@ -5,6 +5,7 @@ import com.edstem.taxibookingsystem.contract.response.TaxiResponse;
 import com.edstem.taxibookingsystem.service.TaxiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +19,9 @@ public class TaxiController {
 
     @Autowired private TaxiService taxiService;
 
-    @PostMapping
-    public @ResponseBody TaxiResponse addTaxi(@RequestBody TaxiRequest taxiRequest) {
-        return taxiService.addTaxi(taxiRequest);
+    @PostMapping("/{userId}")
+    public @ResponseBody TaxiResponse addTaxi(
+            @PathVariable Long userId, @RequestBody TaxiRequest taxiRequest) {
+        return taxiService.addTaxi(userId, taxiRequest);
     }
 }

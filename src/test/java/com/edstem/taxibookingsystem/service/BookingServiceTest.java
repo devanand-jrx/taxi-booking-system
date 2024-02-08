@@ -10,10 +10,13 @@ import com.edstem.taxibookingsystem.contract.request.BookingRequest;
 import com.edstem.taxibookingsystem.contract.response.BookingResponse;
 import com.edstem.taxibookingsystem.exception.BookingNotFoundException;
 import com.edstem.taxibookingsystem.exception.TaxiNotFoundException;
+import com.edstem.taxibookingsystem.exception.UserNotFoundException;
 import com.edstem.taxibookingsystem.model.Booking;
 import com.edstem.taxibookingsystem.model.Taxi;
+import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.BookingRepository;
 import com.edstem.taxibookingsystem.repository.TaxiRepository;
+import com.edstem.taxibookingsystem.repository.UserRepository;
 import java.time.LocalTime;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +32,7 @@ public class BookingServiceTest {
 
     @Mock BookingRepository bookingRepository;
     @Mock TaxiRepository taxiRepository;
+    @Mock UserRepository userRepository;
 
     @Mock ModelMapper modelMapper;
 
@@ -40,10 +44,13 @@ public class BookingServiceTest {
     @Test
     void testAddBooking() {
         Long taxiId = 1L;
+        Long userId = 2L;
         BookingRequest bookingRequest = new BookingRequest("pickup test", "dropofftest");
+        User user = User.builder().build();
         Taxi nearestTaxi = Taxi.builder().build();
         Booking booking =
                 Booking.builder()
+                        .user(user)
                         .pickupLocation(bookingRequest.getPickupLocation())
                         .dropOffLocation(bookingRequest.getDropOffLocation())
                         .bookingTime(LocalTime.parse(LocalTime.now().toString()))
@@ -51,10 +58,11 @@ public class BookingServiceTest {
                         .taxi(nearestTaxi)
                         .build();
         BookingResponse expectedResponse = modelMapper.map(booking, BookingResponse.class);
+        when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(user));
         when(taxiRepository.findById(any(Long.class))).thenReturn(Optional.of(nearestTaxi));
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
 
-        BookingResponse actualResponse = bookingService.addBooking(taxiId, bookingRequest);
+        BookingResponse actualResponse = bookingService.addBooking(userId, taxiId, bookingRequest);
 
         assertEquals(expectedResponse, actualResponse);
     }
@@ -96,15 +104,36 @@ public class BookingServiceTest {
 
     @Test
     public void testAddBooking_TaxiNotFound() {
+        Long userId = 1L;
         Long taxiId = 1L;
+        User user = User.builder().build();
         BookingRequest bookingRequest = new BookingRequest("Kakkanad", "ernakulam");
 
+        when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(user));
         when(taxiRepository.findById(taxiId)).thenReturn(Optional.empty());
 
         assertThrows(
                 TaxiNotFoundException.class,
                 () -> {
-                    bookingService.addBooking(taxiId, bookingRequest);
+                    bookingService.addBooking(userId, taxiId, bookingRequest);
+                });
+    }
+
+    @Test
+    public void testAddBooking_UserNotFound() {
+        Long userId = 1L;
+        Long taxiId = 1L;
+        Taxi nearestTaxi = Taxi.builder().build();
+
+        BookingRequest bookingRequest = new BookingRequest("Kakkanad", "ernakulam");
+
+        when(userRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+        when(taxiRepository.findById(taxiId)).thenReturn(Optional.of(nearestTaxi));
+
+        assertThrows(
+                UserNotFoundException.class,
+                () -> {
+                    bookingService.addBooking(userId, taxiId, bookingRequest);
                 });
     }
 

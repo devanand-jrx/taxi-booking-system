@@ -21,10 +21,12 @@ public class BookingController {
 
     @Autowired private BookingService bookingService;
 
-    @PostMapping("/{taxiId}")
+    @PostMapping("/{userId}/{taxiId}")
     public @ResponseBody BookingResponse addBooking(
-            @PathVariable Long taxiId, @RequestBody BookingRequest bookingRequest) {
-        return bookingService.addBooking(taxiId, bookingRequest);
+            @PathVariable Long userId,
+            @PathVariable Long taxiId,
+            @RequestBody BookingRequest bookingRequest) {
+        return bookingService.addBooking(userId, taxiId, bookingRequest);
     }
 
     @GetMapping("/{bookingId}")
