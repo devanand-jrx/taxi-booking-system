@@ -28,6 +28,7 @@ public class TaxiService {
 
         Taxi taxi =
                 Taxi.builder()
+                        .user(user)
                         .taxiName(taxiRequest.getTaxiName())
                         .driverName(taxiRequest.getDriverName())
                         .licenseNumber(taxiRequest.getLicenseNumber())

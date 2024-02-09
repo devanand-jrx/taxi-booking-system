@@ -70,6 +70,7 @@ public class UserService {
                         .name(user.getName())
                         .email(user.getEmail())
                         .accountBalance(currentBalance + accountBalance)
+                        .password(user.getPassword())
                         .build();
         user = userRepository.save(user);
         return modelMapper.map(user, AccountDetailsResponse.class);
