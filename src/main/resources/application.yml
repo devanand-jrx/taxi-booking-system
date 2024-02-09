@@ -4,7 +4,7 @@ Server:
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/qwe
+    url: jdbc:postgresql://localhost:5432/era
 
     username: postgres
     password:

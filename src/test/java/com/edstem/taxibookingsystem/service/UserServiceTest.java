@@ -10,6 +10,7 @@ import com.edstem.taxibookingsystem.contract.request.SignupRequest;
 import com.edstem.taxibookingsystem.contract.response.AccountDetailsResponse;
 import com.edstem.taxibookingsystem.contract.response.UserResponse;
 import com.edstem.taxibookingsystem.exception.InvalidLoginException;
+import com.edstem.taxibookingsystem.exception.UserAlreadyExistsException;
 import com.edstem.taxibookingsystem.exception.UserNotFoundException;
 import com.edstem.taxibookingsystem.model.User;
 import com.edstem.taxibookingsystem.repository.UserRepository;
@@ -27,9 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserServiceTest {
-    static final String SECRET = "ThisIsASecret";
-    static final String TOKEN_PREFIX = "Bearer";
-    static final String HEADER_STRING = "Authorization";
 
     @InjectMocks UserService userService;
 
@@ -149,7 +147,7 @@ public class UserServiceTest {
         SignupRequest request = new SignupRequest("deva@gmail.com", "deva", "Deva@123");
 
         when(userRepository.existsByEmail(request.getEmail())).thenReturn(true);
-        assertThrows(EntityExistsException.class, () -> userService.signUp(request));
+        assertThrows(UserAlreadyExistsException.class, () -> userService.signUp(request));
     }
 
     @Test
@@ -158,7 +156,7 @@ public class UserServiceTest {
 
         when(userRepository.existsByEmail(request.getEmail())).thenReturn(false);
 
-        assertThrows(EntityNotFoundException.class, () -> userService.login(request));
+        assertThrows(UserNotFoundException.class, () -> userService.login(request));
     }
 
     @Test
