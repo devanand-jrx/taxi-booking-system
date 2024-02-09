@@ -69,6 +69,8 @@ public class BookingService {
                         .orElseThrow(() -> new BookingNotFoundException("Booking Not Found"));
         booking =
                 Booking.builder()
+                        .user(booking.getUser())
+                        .taxi(booking.getTaxi())
                         .bookingId(booking.getBookingId())
                         .dropOffLocation(booking.getDropOffLocation())
                         .pickupLocation(booking.getPickupLocation())
