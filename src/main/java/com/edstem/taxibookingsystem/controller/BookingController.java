@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,7 +21,7 @@ public class BookingController {
     @Autowired private BookingService bookingService;
 
     @PostMapping("/{userId}/{taxiId}")
-    public @ResponseBody BookingResponse addBooking(
+    public BookingResponse addBooking(
             @PathVariable Long userId,
             @PathVariable Long taxiId,
             @RequestBody BookingRequest bookingRequest) {
@@ -30,12 +29,12 @@ public class BookingController {
     }
 
     @GetMapping("/{bookingId}")
-    public @ResponseBody BookingResponse viewBooking(@PathVariable Long bookingId) {
+    public BookingResponse viewBooking(@PathVariable Long bookingId) {
         return bookingService.viewBooking(bookingId);
     }
 
     @PutMapping("/{bookingId}")
-    public @ResponseBody BookingResponse updateBooking(@PathVariable Long bookingId) {
+    public BookingResponse updateBooking(@PathVariable Long bookingId) {
         return bookingService.updateBooking(bookingId);
     }
 }

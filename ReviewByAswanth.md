@@ -16,3 +16,5 @@
 
 ### Unit tests
 - Write tests to check the token validity and expiration in JwtService.
+
+### All review comments resolved!

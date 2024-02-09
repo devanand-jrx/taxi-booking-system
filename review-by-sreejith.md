@@ -31,3 +31,5 @@
 
 
 #### There is currently no integration with external services like payment gateways.
+
+### All review comments resolved!

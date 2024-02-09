@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -35,13 +34,13 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/balance")
-    public @ResponseBody AccountDetailsResponse addBalance(
+    public AccountDetailsResponse addBalance(
             @PathVariable Long userId, @RequestParam Double accountBalance) {
         return userService.addBalance(userId, accountBalance);
     }
 
     @GetMapping("/{userId}/details")
-    public @ResponseBody AccountDetailsResponse getAccountDetails(@PathVariable Long userId) {
+    public AccountDetailsResponse getAccountDetails(@PathVariable Long userId) {
         return userService.getAccountDetails(userId);
     }
 }
